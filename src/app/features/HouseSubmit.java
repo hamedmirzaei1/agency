@@ -1,4 +1,4 @@
-package app;
+package app.features;
 
 import data.HouseManager;
 import house.Apartment;
@@ -10,7 +10,7 @@ import user.User;
 import java.util.Scanner;
 
 public class HouseSubmit {
-    boolean isShowing;
+    private boolean isShowing;
 
     public void menu(String status, Scanner sc, HouseManager data, User currentUser) {
         isShowing = true;
@@ -103,31 +103,34 @@ public class HouseSubmit {
     private void confirmSubmit(Scanner sc, House inputHouse, HouseManager data) {
         System.out.println();
 
-        if(inputHouse.getStatus().equals("forSale")) {
+        if (inputHouse.getStatus().equals("forSale")) {
             System.out.println("The house price will be: ");
             System.out.print("$" + inputHouse.getPrice());
         }
-        if(inputHouse.getStatus().equals("forRent")) {
+        if (inputHouse.getStatus().equals("forRent")) {
             System.out.println("The House monthly rent will be: ");
             System.out.print("$" + inputHouse.getMonthlyRentPrice());
         }
         System.out.println();
+
         while (true) {
             System.out.println("1. Confirm");
             System.out.println("2. Cancel");
             System.out.println("==================================");
             System.out.print("CHOOSE AN OPTION: ");
             String command = sc.nextLine();
-            switch (command) {
-                case "1":
-                    data.updateHousesFile();
-                    System.out.println("House was successfully added ");
-                    isShowing = false;
-                case "2":
-                    data.getHouses().remove(inputHouse.getId());
-                    isShowing = true;
-                }
-            System.out.println();
+            if (command.equals("1")) {
+                data.updateHousesFile();
+                System.out.println("House was successfully added ");
+                isShowing = false;
+                break;
             }
+            if (command.equals("2")) {
+                data.getHouses().remove(inputHouse.getId());
+                isShowing = true;
+                break;
+            }
+            System.out.println();
         }
+    }
 }

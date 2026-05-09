@@ -1,4 +1,4 @@
-package app;
+package app.signup;
 
 import data.UserManager;
 
@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Scanner;
 
-public class LoginTools {
+public class SignUpTools {
     public static String hash(String input) {
         byte[] hashBytes = {};
         try {

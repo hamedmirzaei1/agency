@@ -1,23 +1,21 @@
 package app.signup;
 
+import app.Session;
 import data.UserManager;
 import user.User;
 
 import java.util.Scanner;
 
-public class Session {
+public class SignUpMenu {
     private User currentUser;
 
+    private boolean isShowing = true;
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void loginMenu(Scanner sc, UserManager data) {
-        boolean isShowing = true;
+    public void menu(Session session) {
+        Scanner sc = new Scanner(System.in);
 
         while (isShowing) {
-            data.loadUser();
+            session.getUserData().loadUsersFile();
 
             System.out.println("==================================");
             System.out.println("1.  Login");
@@ -33,17 +31,18 @@ public class Session {
 
             switch(command) {
                 case "1":
-                    if(login(sc, data)) {
+                    if(login(sc, session.getUserData())) {
                         isShowing = false;
                     }
                     break;
                 case "2":
-                    if(signUp(sc, data)) {
+                    if(signUp(sc, session.getUserData())) {
                         isShowing = false;
                     }
                     break;
                 case "3":
-                    isShowing = false; // todo: make the exit standard (with save)
+                    session.endSession();
+                    break;
                 default:
                     System.out.println("NOT VALID OPTION");
             }
@@ -106,8 +105,11 @@ public class Session {
         return true;
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
-    public static void endSession() {
-        //todo
+    public void setShowing(boolean showing) {
+        isShowing = showing;
     }
 }

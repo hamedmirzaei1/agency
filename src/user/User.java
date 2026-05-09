@@ -1,8 +1,9 @@
 package user;
 
-import java.util.UUID;
 
-public class User{
+import id.IDKeeper;
+
+public class User extends IDKeeper {
     private String id;
     private String name;
     private String userName;
@@ -11,7 +12,7 @@ public class User{
     private int budget;
 
     public User(String userName, String hashedPassword, String name) {
-        this.id = UUID.randomUUID().toString();
+        this.id = super.idGenerator();
         this.name = name;
         this.userName = userName;
         this.hashedPassword = hashedPassword;

@@ -1,11 +1,11 @@
-package trade;
+package contract;
 
+import id.IDKeeper;
 import house.House;
 import user.User;
 
-import java.util.UUID;
 
-public class RentContract {
+public class RentContract extends IDKeeper {
     private String id;
     private House house;
     private User firstOne;
@@ -21,7 +21,7 @@ public class RentContract {
         this.monthlyRent = monthlyRent;
         this.deadline = deadline;
 
-        this.id = UUID.randomUUID().toString();
+        this.id = super.idGenerator();
 
         house.setStatus(null);
     }

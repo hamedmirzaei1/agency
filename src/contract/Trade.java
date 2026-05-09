@@ -1,4 +1,4 @@
-package trade;
+package contract;
 
 import house.House;
 import user.User;

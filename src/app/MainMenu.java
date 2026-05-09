@@ -1,13 +1,20 @@
 package app;
 
-import user.User;
+
+import app.features.HouseList;
+import app.features.HouseSubmit;
 
 import java.util.Scanner;
 
 public class MainMenu {
+    private HouseSubmit houseSubmit = new HouseSubmit();
+    private HouseList houseList = new HouseList();
+
+
     boolean isShowing = true;
 
-    public void startMenu(Scanner sc, User currentUser) {
+    public void menu(Session session) {
+        Scanner sc = new Scanner(System.in);
         while(isShowing) {
             System.out.println("==================================");
             System.out.println("1.  My budget");
@@ -23,11 +30,11 @@ public class MainMenu {
             System.out.println("8.  Contract details using ID");
             System.out.println("9.  Cancel a contract");
             System.out.println();
-            System.out.println("9.  Submit house for sale");
-            System.out.println("10. Submit house for rent");
-            System.out.println("11. Submit for *fast* sale");
+            System.out.println("10. Submit house for sale");
+            System.out.println("11. Submit house for rent");
+            System.out.println("12. Submit for *fast* sale");
             System.out.println();
-            System.out.println("12. exit");
+            System.out.println("13. exit");
             System.out.println("==================================");
             System.out.print("CHOOSE AN OPTION: ");
 
@@ -37,10 +44,19 @@ public class MainMenu {
 
             switch(command) {
                 case "1":
-                    System.out.println("Your budget: " + currentUser.getBudget());
+                    System.out.println("Your budget: " + session.getCurrentUser().getBudget()); // todo: make it a function
                     break;
-                case "12":
-                    isShowing = false;
+                case "2":
+                    houseList.currentUserHouses(session.getCurrentUser(), session.getHouseData());
+                    break;
+                case "10":
+                    houseSubmit.menu("forSale", sc, session.getHouseData(), session.getCurrentUser());
+                    break;
+                case "11":
+                    houseSubmit.menu("forRent", sc, session.getHouseData(), session.getCurrentUser());
+                    break;
+                case "13":
+                    session.endSession();
                     break;
                 default:
                     System.out.println("NOT VALID OPTION");
@@ -48,5 +64,9 @@ public class MainMenu {
             System.out.println();
 
         }
+    }
+
+    public void setShowing(boolean showing) {
+        isShowing = showing;
     }
 }
