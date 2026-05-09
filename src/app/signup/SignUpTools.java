@@ -1,6 +1,6 @@
 package app;
 
-import data.DataManager;
+import data.UserManager;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -20,7 +20,7 @@ public class LoginTools {
         return  Base64.getEncoder().encodeToString(hashBytes);
     }
 
-    public static boolean checkUserName(String input, DataManager data) {
+    public static boolean checkUserName(String input, UserManager data) {
         if(data.getUserNameToID().containsKey(input)) {
             System.out.println();
             System.out.println("This username was taken before.");
