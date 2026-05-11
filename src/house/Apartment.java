@@ -37,4 +37,9 @@ public class Apartment extends House{
     public int getUnitNumber() {
         return unitNumber;
     }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + "\n" + "unit number: " + unitNumber + " - number of apartment units: " + numberOfUnits;
+    }
 }

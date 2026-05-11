@@ -10,8 +10,6 @@ public abstract class House extends IDKeeper {
     private User owner;
     private String status;
 
-//    private boolean hasRent;
-
     private int area;
     private int floor;
     private int numberOfFloors;
@@ -49,18 +47,26 @@ public abstract class House extends IDKeeper {
         this.status = status;
         this.region = zone;
         this.id = id;
-//        data.getHouses().put(id, this);
     }
 
 
     protected double getBasePrice() {
         return area * basePricePerMeter * regionCoefficient[region - 1];
     }
+
     public abstract int getPrice();
     public int getMonthlyRentPrice() {
         return (int)(getPrice() * rentRate);
     }
     public abstract String getName();
+
+
+    public String getDescription() {
+        String description = getName() + " - area: " + area + " - region: " + region;
+        description += "\n" +  "floor: " + floor + " - number of house floors: " + numberOfFloors;
+        description += "\n" + "number of bedrooms: " + roomNumbers + " - number of bathrooms: " + bathroomNumbers;
+        return description;
+    }
 
 
     public String getOwnerName() {

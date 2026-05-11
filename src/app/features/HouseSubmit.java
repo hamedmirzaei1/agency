@@ -27,6 +27,8 @@ public class HouseSubmit {
                 System.out.println("==================================");
                 System.out.print("CHOOSE AN OPTION: ");
                 String command = sc.nextLine();
+                System.out.println();
+
                 switch (command) {
                     case "1":
                         break;
@@ -38,12 +40,10 @@ public class HouseSubmit {
                         isShowing = false;
                         continue;
                     default:
-                        System.out.println();
                         System.out.println("NOT VALID OPTION");
                         System.out.println();
                         continue;
                 }
-                System.out.println();
                 System.out.print("Enter house area: ");
                 int area = Integer.parseInt(sc.nextLine());
                 System.out.print("Enter floor: ");
@@ -121,6 +121,8 @@ public class HouseSubmit {
             String command = sc.nextLine();
             if (command.equals("1")) {
                 data.updateHousesFile();
+
+                System.out.println();
                 System.out.println("House was successfully added ");
                 isShowing = false;
                 break;

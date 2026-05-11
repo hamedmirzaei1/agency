@@ -1,6 +1,8 @@
 package app;
 
 
+import app.features.BuyingMenu;
+import app.features.HouseDetail;
 import app.features.HouseList;
 import app.features.HouseSubmit;
 
@@ -9,6 +11,8 @@ import java.util.Scanner;
 public class MainMenu {
     private HouseSubmit houseSubmit = new HouseSubmit();
     private HouseList houseList = new HouseList();
+    private HouseDetail houseDetail = new HouseDetail();
+    private BuyingMenu buyingMenu = new BuyingMenu();
 
 
     boolean isShowing = true;
@@ -44,10 +48,16 @@ public class MainMenu {
 
             switch(command) {
                 case "1":
-                    System.out.println("Your budget: " + session.getCurrentUser().getBudget()); // todo: make it a function
+                    System.out.println("Your budget: " + session.getCurrentUser().getBudget());
                     break;
                 case "2":
                     houseList.currentUserHouses(session.getCurrentUser(), session.getHouseData());
+                    break;
+                case "4":
+                    buyingMenu.menu(session.getHouseData(), session.getUserData(), session.getCurrentUser());
+                    break;
+                case "6":
+                    houseDetail.menu(session.getHouseData());
                     break;
                 case "10":
                     houseSubmit.menu("forSale", sc, session.getHouseData(), session.getCurrentUser());

@@ -33,4 +33,9 @@ public class VillaHouse extends House{
         return yardArea;
     }
 
+    @Override
+    public String getDescription() {
+        return super.getDescription() + " - yard area: " + yardArea;
+    }
+
 }

@@ -32,4 +32,9 @@ public class PentHouse extends House{
     public int getTerraceArea() {
         return terraceArea;
     }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + " - terrace area: " + terraceArea;
+    }
 }

@@ -62,7 +62,6 @@ public class HouseManager {
             while((line = reader.readLine()) != null) {
                 String[] parts = line.split(", ");
                 try {
-                    House newHouse;
 
                     String id = parts[0];
                     String houseType = parts[1];
