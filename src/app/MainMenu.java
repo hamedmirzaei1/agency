@@ -1,18 +1,27 @@
 package app;
 
 
-import app.features.BuyingMenu;
-import app.features.HouseDetail;
-import app.features.HouseList;
-import app.features.HouseSubmit;
+import app.features.*;
+import app.features.rentedHouses.CancelContract;
+import app.features.rentedHouses.ContractDetail;
+import app.features.rentedHouses.ContractList;
+import app.features.rentedHouses.RentedHouseList;
 
 import java.util.Scanner;
 
 public class MainMenu {
     private HouseSubmit houseSubmit = new HouseSubmit();
+
     private HouseList houseList = new HouseList();
     private HouseDetail houseDetail = new HouseDetail();
+
+    private RentedHouseList rentedHouseList = new RentedHouseList();
+    private ContractList contractList = new ContractList();
+    private ContractDetail contractDetail = new ContractDetail();
+    private CancelContract cancelContract = new CancelContract();
+
     private BuyingMenu buyingMenu = new BuyingMenu();
+    private RentingMenu rentingMenu = new RentingMenu();
 
 
     boolean isShowing = true;
@@ -48,16 +57,31 @@ public class MainMenu {
 
             switch(command) {
                 case "1":
-                    System.out.println("Your budget: " + session.getCurrentUser().getBudget());
+                    System.out.println("Your budget:  $" + session.getCurrentUser().getBudget());
                     break;
                 case "2":
                     houseList.currentUserHouses(session.getCurrentUser(), session.getHouseData());
                     break;
+                case "3":
+                    rentedHouseList.menu(session.getCurrentUser(), session.getHouseData(), session.getContractData());
+                    break;
                 case "4":
                     buyingMenu.menu(session.getHouseData(), session.getUserData(), session.getCurrentUser());
                     break;
+                case "5":
+                    rentingMenu.menu(session.getHouseData(), session.getContractData(), session.getCurrentUser());
+                    break;
                 case "6":
                     houseDetail.menu(session.getHouseData());
+                    break;
+                case "7":
+                    contractList.menu(session.getContractData(), session.getCurrentUser());
+                    break;
+                case "8":
+                    contractDetail.menu(session.getContractData());
+                    break;
+                case "9":
+                    cancelContract.menu(session);
                     break;
                 case "10":
                     houseSubmit.menu("forSale", sc, session.getHouseData(), session.getCurrentUser());

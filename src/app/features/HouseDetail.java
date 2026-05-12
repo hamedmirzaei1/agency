@@ -13,15 +13,24 @@ public class HouseDetail {
         isShowing = true;
         while (isShowing) {
 
-            System.out.print("Enter a house id to get details: ");
+            System.out.println("Enter a house id to get details\nor");
+            System.out.println("0. Back");
+            System.out.println("==================================");
+            System.out.print("CHOOSE AN OPTION: ");
             String id = sc.nextLine();
 
+            if (id.equals("0")) {
+                isShowing = false;
+                break;
+            }
+            System.out.println();
             if(checkForHouse(id, houseData)) {
                 System.out.println();
                 System.out.println(detail(id, houseData));
                 break;
             } else {
                 System.out.println("id is not valid");
+                System.out.println();
             }
 
         }

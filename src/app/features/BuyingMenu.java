@@ -1,6 +1,6 @@
 package app.features;
 
-import contract.Trade;
+import contract.TradeTools;
 import data.HouseManager;
 import data.UserManager;
 import user.User;
@@ -45,40 +45,40 @@ public class BuyingMenu {
 
             if(command.equals("0")) {
                 isShowing = false;
-            } else {
-                if(HouseDetail.checkForHouse(command, houseData)) {
+                break;
+            }
+            if(HouseDetail.checkForHouse(command, houseData)) {
+                System.out.println();
+                System.out.println(HouseDetail.detail(command, houseData));
+                System.out.println();
+                while (true) {
+                    System.out.println("$" + houseData.getHouses().get(command).getPrice());
                     System.out.println();
-                    System.out.println(HouseDetail.detail(command, houseData));
-                    System.out.println();
-                    while (true) {
-                        System.out.println("$" + houseData.getHouses().get(command).getPrice());
-                        System.out.println();
-                        System.out.println("1. purchase");
-                        System.out.println("2. Back");
-                        System.out.println("==================================");
-                        System.out.print("CHOOSE AN OPTION: ");
-                        String option = sc.nextLine();
-                        if(option.equals("1")) {
-                            if (buy(command, currentUser, houseData, userData)) {
-                                isShowing = false;
-                                break;
-                            } else {
-                                break;
-                            }
-                        } if (option.equals("2")) {
+                    System.out.println("1. Purchase");
+                    System.out.println("2. Back");
+                    System.out.println("==================================");
+                    System.out.print("CHOOSE AN OPTION: ");
+                    String option = sc.nextLine();
+                    if(option.equals("1")) {
+                        if (buy(command, currentUser, houseData, userData)) {
+                            isShowing = false;
+                            break;
+                        } else {
                             break;
                         }
+                    } if (option.equals("2")) {
+                        break;
                     }
-                } else {
-                    System.out.println();
-                    System.out.println("id is not valid");
                 }
+            } else {
+                System.out.println();
+                System.out.println("id is not valid");
             }
         }
     }
 
     private boolean buy(String id, User currentUser, HouseManager houseData, UserManager userData) {
-        if(Trade.trade(houseData.getHouses().get(id).getOwner(), currentUser, houseData.getHouses().get(id) ,houseData.getHouses().get(id).getPrice())) {
+        if(TradeTools.trade(houseData.getHouses().get(id).getOwner(), currentUser, houseData.getHouses().get(id) ,houseData.getHouses().get(id).getPrice())) {
             System.out.println();
             System.out.println("The house was successfully purchased");
             houseData.updateHousesFile();
@@ -87,7 +87,7 @@ public class BuyingMenu {
         }
         else {
             System.out.println();
-            System.out.println("Not enough Budget");
+            System.out.println("Not enough budget");
             return false;
         }
     }

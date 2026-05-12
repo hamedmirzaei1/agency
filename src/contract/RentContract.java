@@ -1,5 +1,6 @@
 package contract;
 
+import data.ContractManager;
 import id.IDKeeper;
 import house.House;
 import user.User;
@@ -18,17 +19,17 @@ public class RentContract extends IDKeeper {
 
     private int monthlyRent;
 
-    public RentContract(User landlord, User secendOne, House house, int monthlyRent) {
+    public RentContract(User landlord, User secondOne, House house, int monthlyRent) {
         this.house = house;
         this.landlord = landlord;
-        this.secondOne = secendOne;
+        this.secondOne = secondOne;
         this.monthlyRent = monthlyRent;
 
         this.deadline = LocalDate.now().plusYears(1).toString();
         this.id = super.idGenerator();
         this.isValid = "yes";
 
-        Trade.rent(house);
+        house.setStatus("rented");
     }
 
     public RentContract(String id, House house, User landlord, User secondOne, String deadline, String isValid, int monthlyRent) {
@@ -55,6 +56,16 @@ public class RentContract extends IDKeeper {
         }
     }
 
+    public String getDescription() {
+        String description = "house id:  " + getHouse().getId() + "  - expiration date: " + deadline;
+        description += "\nmonthly rent: $" + monthlyRent + "\nrented from: " + landlord.getID() + " (" + landlord.getName() + ") ";
+        description += "by: " + secondOne.getID() + " (" + secondOne.getName() + ")";
+        if (!getValid()) {
+            description = "[CANCELED] ";
+        }
+        return description;
+    }
+
     public String getId() {
         return id;
     }
@@ -77,5 +88,9 @@ public class RentContract extends IDKeeper {
 
     public int getMonthlyRent() {
         return monthlyRent;
+    }
+
+    public void setIsValid(String isValid) {
+        this.isValid = isValid;
     }
 }

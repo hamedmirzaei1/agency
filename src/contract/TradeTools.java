@@ -3,9 +3,9 @@ package contract;
 import house.House;
 import user.User;
 
-public abstract class Trade {
+public abstract class TradeTools {
     public static boolean trade(User seller, User buyer, House house, int price) {
-        if(buyer.getBudget() > price) {
+        if(buyer.getBudget() > price && house.getStatus().equals("forSale") && !buyer.equals(seller)) {
             buyer.changeBudget(-price);
             seller.changeBudget(+price);
             house.setOwner(buyer);
@@ -16,17 +16,18 @@ public abstract class Trade {
         }
     }
 
-    public static void rent(House house) {
-        house.setStatus("rented");
-    }
-
     public static boolean cancelRent(RentContract contract) {
-        int penalty = contract.getMonthlyRent() * 6;
-        if (penalty < contract.getLandlord().getBudget()) {
-            contract.getLandlord().changeBudget(-penalty);
+        int penalty = getCancelPenalty(contract.getHouse());
+        if (penalty < contract.getSecondOne().getBudget()) {
+            contract.getSecondOne().changeBudget(-penalty);
+            contract.setIsValid("no");
+            contract.getHouse().setStatus("none");
             return true;
         } else {
             return false;
         }
+    }
+    public static int getCancelPenalty(House house) {
+        return house.getMonthlyRentPrice() * 6;
     }
 }

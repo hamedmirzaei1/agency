@@ -1,30 +1,30 @@
-package app.features;
+package app.features.rentedHouses;
 
+import app.features.HouseDetail;
+import data.ContractManager;
 import data.HouseManager;
 import user.User;
 
 import java.util.Scanner;
 
-public class HouseList {
-    private boolean isShowing = true;
+public class RentedHouseList {
+    private boolean isShowing;
 
-    public void currentUserHouses(User currentUser, HouseManager houseData) {
+    public void menu(User currentUser, HouseManager houseData, ContractManager contractData) {
         Scanner sc = new Scanner(System.in);
-
         isShowing = true;
-        while (isShowing) {
+        while(isShowing) {
             int counter = 0;
-
-            System.out.println("------ My houses ------");
+            System.out.println("------ My rented houses ------");
             System.out.println();
-            for (String id : houseData.getHouses().keySet()) {
-                if (houseData.getHouses().get(id).getOwner().getID().equals(currentUser.getID())) {
+            for(String id : contractData.getContracts().keySet()) {
+                if (contractData.getContracts().get(id).getSecondOne().getID().equals(currentUser.getID()) && contractData.getContracts().get(id).getValid()) {
                     counter++;
-                    System.out.println(counter + "- " + id + "   status: " + houseData.getHouses().get(id).getStatus());
+                    System.out.println(counter + "- " + contractData.getContracts().get(id).getHouse().getId());
                 }
             }
             if (counter == 0) {
-                System.out.println("You have no houses");
+                System.out.println("You have no rented houses");
             }
 
             System.out.println();
@@ -50,7 +50,7 @@ public class HouseList {
                 System.out.println();
                 System.out.println("==================================");
             }
-
         }
     }
+
 }

@@ -1,6 +1,7 @@
 package app;
 
 import app.signup.SignUpMenu;
+import data.ContractManager;
 import data.HouseManager;
 import data.UserManager;
 import user.User;
@@ -10,6 +11,7 @@ public class Session {
 
     private HouseManager houseData = new HouseManager();
     private UserManager userData = new UserManager();
+    private ContractManager contractData = new ContractManager();
 
     private MainMenu mainMenu = new MainMenu();
     private SignUpMenu signUpMenu = new SignUpMenu();
@@ -17,6 +19,7 @@ public class Session {
     public void startSession() {
         userData.loadUsersFile();
         houseData.loadHousesFile(userData);
+        contractData.loadContractsFile(houseData, userData);
 
         signUpMenu.menu(this);
         this.currentUser = signUpMenu.getCurrentUser();
@@ -25,11 +28,16 @@ public class Session {
     }
 
     public void endSession() {
-        houseData.updateHousesFile();
-        userData.updateUsersFile();
+        updateFiles(this);
 
         mainMenu.setShowing(false);
         signUpMenu.setShowing(false);
+    }
+
+    public static void updateFiles(Session session) {
+        session.houseData.updateHousesFile();
+        session.userData.updateUsersFile();
+        session.contractData.updateContractsFile();
     }
 
     public UserManager getUserData() {
@@ -38,6 +46,10 @@ public class Session {
 
     public HouseManager getHouseData() {
         return houseData;
+    }
+
+    public ContractManager getContractData() {
+        return contractData;
     }
 
     public User getCurrentUser() {
