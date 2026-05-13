@@ -9,7 +9,7 @@ public class User extends IDKeeper {
     private String userName;
     private String hashedPassword;
 
-    protected int budget;
+    private int budget;
 
     public User(String userName, String hashedPassword, String name) {
         this.id = super.idGenerator();

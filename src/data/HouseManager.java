@@ -98,4 +98,5 @@ public class HouseManager {
             System.out.println(e.getMessage());
         }
     }
+
 }

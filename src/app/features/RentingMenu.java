@@ -23,7 +23,8 @@ public class RentingMenu {
             int counter = 0;
 
             for(String id : houseData.getHouses().keySet()) {
-                if(houseData.getHouses().get(id).getStatus().equals("forRent") && !houseData.getHouses().get(id).getOwner().getID().equals(currentUser.getID())) {
+                if((houseData.getHouses().get(id).getStatus().equals("forRent") || houseData.getHouses().get(id).getStatus().equals("forSaleForRent"))
+                        && !houseData.getHouses().get(id).getOwner().getID().equals(currentUser.getID())) {
                     counter++;
                     System.out.println(counter + "- " + houseData.getHouses().get(id).getId() + "   $" + houseData.getHouses().get(id).getMonthlyRentPrice() + " per month");
                 }
@@ -49,12 +50,15 @@ public class RentingMenu {
             }
             System.out.println();
             if(HouseDetail.checkForHouse(command, houseData)) {
-                if(houseData.getHouses().get(command).getStatus().equals("forRent") && !houseData.getHouses().get(command).getOwner().getID().equals(currentUser.getID())) {
+                if((houseData.getHouses().get(command).getStatus().equals("forRent") || houseData.getHouses().get(command).getStatus().equals("forSaleForRent"))
+                        && !houseData.getHouses().get(command).getOwner().getID().equals(currentUser.getID())) {
                     if(rent(command, houseData, contractData, currentUser)) {
                         System.out.println();
                         System.out.println("The house was successfully rented");
                         isShowing = false;
                     }
+                } else {
+                    System.out.println("you can't rent this house");
                 }
             } else {
                 System.out.println("id is not valid");

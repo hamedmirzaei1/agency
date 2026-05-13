@@ -1,5 +1,7 @@
 package app.features;
 
+import app.Session;
+import contract.TradeTools;
 import data.HouseManager;
 import house.Apartment;
 import house.House;
@@ -9,10 +11,10 @@ import user.User;
 
 import java.util.Scanner;
 
-public class HouseSubmit {
+public class FastSale {
     private boolean isShowing;
 
-    public void menu(String status, HouseManager houseData, User currentUser) {
+    public void menu(HouseManager data, User currentUser, Session session) {
         Scanner sc = new Scanner(System.in);
 
         isShowing = true;
@@ -30,16 +32,11 @@ public class HouseSubmit {
                 System.out.print("CHOOSE AN OPTION: ");
                 String command = sc.nextLine();
                 System.out.println();
-                command = command.trim();
 
-                if (loadHouse(command, houseData, currentUser, status)) {
-                    if(houseData.getHouses().get(command).getStatus().equals("none")) {
-                        confirmSubmit(sc, houseData.getHouses().get(command.trim()), houseData, false, status, status);
-                    } else {
-                        confirmSubmit(sc, houseData.getHouses().get(command.trim()), houseData, false, status, "forSaleForRent");
-                    }
-                    break;
-                }
+//                if (HouseSubmit.loadHouse(command, data, currentUser)) {
+//                    sale(data.getHouses().get(command.trim()), session, false);
+//                    break;
+//                }
 
                 switch (command) {
                     case "1":
@@ -84,46 +81,43 @@ public class HouseSubmit {
                         System.out.print("Enter unit number of the house: ");
                         int unitNumber = Integer.parseInt(sc.nextLine());
 
-                        inputHouse = new Apartment(houseData, currentUser, status, area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, numberOfUnits, unitNumber);
-                        confirmSubmit(sc, inputHouse, houseData, true, status, status);
+                        inputHouse = new Apartment(data, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, numberOfUnits, unitNumber);
+                        sale(inputHouse, session, true);
                         break;
                     case "2":
                         System.out.print("Enter terrace area: ");
                         int terraceArea = Integer.parseInt(sc.nextLine());
 
-                        inputHouse = new PentHouse(houseData, currentUser, status, area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, terraceArea);
-                        confirmSubmit(sc, inputHouse, houseData, true, status, status);
+                        inputHouse = new PentHouse(data, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, terraceArea);
+                        sale(inputHouse, session, true);
                         break;
                     case "3":
                         System.out.print("Enter yard area: ");
                         int yardArea = Integer.parseInt(sc.nextLine());
 
-                        inputHouse = new VillaHouse(houseData, currentUser, status, area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, yardArea);
-                        confirmSubmit(sc, inputHouse, houseData, true, status, status);
+                        inputHouse = new VillaHouse(data, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, yardArea);
+                        sale(inputHouse, session, true);
                         break;
                 }
 
                 System.out.println();
 
             } catch (Exception e) {
-                System.out.println(e);
                 System.out.println("Input is not valid");
                 System.out.println();
             }
         }
     }
+    private void sale(House inputHouse, Session session, boolean newSub) {
+        Scanner sc = new Scanner(System.in);
 
-    private void confirmSubmit(Scanner sc, House inputHouse, HouseManager data, boolean newSub, String status, String settingStatus) {
         System.out.println();
 
-        if (status.equals("forSale")) {
-            System.out.println("The house price will be: ");
-            System.out.print("$" + inputHouse.getPrice());
-        }
-        if (status.equals("forRent")) {
-            System.out.println("The House monthly rent will be: ");
-            System.out.print("$" + inputHouse.getMonthlyRentPrice());
-        }
+
+        System.out.println("price: ");
+        System.out.println("$" + (int)(inputHouse.getPrice() * 0.9));
+        System.out.println("[10% less than normal sale]");
+
         System.out.println();
 
         while (true) {
@@ -133,34 +127,21 @@ public class HouseSubmit {
             System.out.print("CHOOSE AN OPTION: ");
             String command = sc.nextLine();
             if (command.equals("1")) {
-                inputHouse.setStatus(settingStatus);
-                data.updateHousesFile();
-
+                TradeTools.fastTrade(session.getSuperUser(), session.getCurrentUser(), inputHouse, inputHouse.getPrice());
+                session.getHouseData().updateHousesFile();
                 System.out.println();
-                System.out.println("House was successfully submitted ");
+                System.out.println("House was successfully sold");
                 isShowing = false;
                 break;
             }
             if (command.equals("2")) {
                 if (newSub) {
-                    data.getHouses().remove(inputHouse.getId());
+                    session.getHouseData().getHouses().remove(inputHouse.getId());
                 }
                 isShowing = true;
                 break;
             }
             System.out.println();
-        }
-    }
-
-    public static boolean loadHouse(String id, HouseManager houseData, User currentUser, String status) {
-        if (HouseDetail.checkForHouse(id, houseData) &&
-                !houseData.getHouses().get(id).getStatus().equals(status) &&
-                !houseData.getHouses().get(id).getStatus().equals("forSaleForRent") &&
-                !houseData.getHouses().get(id).getStatus().equals("rented") &&
-                houseData.getHouses().get(id).getOwner().getID().equals(currentUser.getID())) {
-            return true;
-        } else {
-            return false;
         }
     }
 

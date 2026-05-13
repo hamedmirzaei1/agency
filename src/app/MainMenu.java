@@ -22,6 +22,7 @@ public class MainMenu {
 
     private BuyingMenu buyingMenu = new BuyingMenu();
     private RentingMenu rentingMenu = new RentingMenu();
+    private FastSale fastSale = new FastSale();
 
 
     boolean isShowing = true;
@@ -86,10 +87,13 @@ public class MainMenu {
                     cancelContract.menu(session);
                     break;
                 case "10":
-                    houseSubmit.menu("forSale", sc, session.getHouseData(), session.getCurrentUser());
+                    houseSubmit.menu("forSale", session.getHouseData(), session.getCurrentUser());
                     break;
                 case "11":
-                    houseSubmit.menu("forRent", sc, session.getHouseData(), session.getCurrentUser());
+                    houseSubmit.menu("forRent", session.getHouseData(), session.getCurrentUser());
+                    break;
+                case "12":
+//                    fastSale.menu(session.getHouseData(), session.getCurrentUser(), session);
                     break;
                 case "14":
                     session.endSession();

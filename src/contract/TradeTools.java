@@ -5,14 +5,36 @@ import house.House;
 import user.User;
 
 public abstract class TradeTools {
-    public static boolean trade(User seller, User buyer, House house, int price) {
-        if(buyer.getBudget() > price && house.getStatus().equals("forSale") && !buyer.equals(seller)) {
+    public static boolean trade(User seller, User buyer, House house, int price, UserManager userData) {
+        if (seller.getID().equals("superuser")) {
+            if (buyer.getBudget() > price) {
+                buyer.changeBudget(-price);
+                house.setOwner(buyer);
+                house.setStatus("none");
+                return true;
+            } else {
+                System.out.println();
+                System.out.println("not enought budget");
+                System.out.println();
+                return false;
+            }
+        }
+
+        seller = userData.getIdToUser().get(seller.getID());
+        if(buyer.equals(seller)) {
+            System.out.println("\nyou can't purchase your own house\n");
+            return false;
+        }
+        if(buyer.getBudget() > price) {
             buyer.changeBudget(-price);
             seller.changeBudget(+price);
             house.setOwner(buyer);
             house.setStatus("none");
             return true;
         } else {
+            System.out.println();
+            System.out.println("not enough budget");
+            System.out.println();
             return false;
         }
     }
@@ -20,9 +42,8 @@ public abstract class TradeTools {
         price = (int)(price * 0.9);
         if(house.getStatus().equals("forSale")) {
             seller.changeBudget(price);
-            superUser.changeBudget(-price);
             house.setOwner(superUser);
-            house.setStatus("forSale");
+            house.setStatus("forSaleForRent");
             return true;
         } else {
             return false;

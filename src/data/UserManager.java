@@ -1,6 +1,5 @@
 package data;
 
-import user.SuperUser;
 import user.User;
 
 import java.io.*;
@@ -21,26 +20,8 @@ public class UserManager {
         return userNameToID;
     }
 
-//    public void saveUser(User user) {
-//        try(PrintWriter writer = new PrintWriter(new FileWriter(USERS_FILE_NAME, true))) {
-//            writer.print(user.getID());
-//            writer.print(", ");
-//            writer.print(user.getUserName());
-//            writer.print(", ");
-//            writer.print(user.getHashedPassword());
-//            writer.print(", ");
-//            writer.print(user.getName());
-//            writer.print(", ");
-//            writer.print(user.getBudget());
-//            writer.println();
-//        } catch (IOException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
-
     public void updateUsersFile() {
         try(PrintWriter writer = new PrintWriter(new FileWriter(USERS_FILE_NAME))) {
-            writer.println(idToUser.get("superuser").getBudget());
             for(String id : idToUser.keySet()) {
                 writer.print(id);
                 writer.print(", ");
@@ -71,9 +52,6 @@ public class UserManager {
             String hashedPassword = "";
             int budget = 0;
 
-            if((line = reader.readLine()) != null) {
-                idToUser.put("superuser", new SuperUser(Integer.parseInt(line)));
-            }
             while((line = reader.readLine()) != null) {
                 String[] parts = line.split(", ");
 

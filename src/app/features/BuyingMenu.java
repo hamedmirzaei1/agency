@@ -19,9 +19,10 @@ public class BuyingMenu {
             System.out.println();
             System.out.println("------ Houses for sale ------");
             System.out.println();
-
             for(String id : houseData.getHouses().keySet()) {
-                if(houseData.getHouses().get(id).getStatus().equals("forSale") && !houseData.getHouses().get(id).getOwner().getID().equals(currentUser.getID())) {
+                if((houseData.getHouses().get(id).getStatus().equals("forSale") ||
+                        houseData.getHouses().get(id).getStatus().equals("forSaleForRent"))&&
+                        !houseData.getHouses().get(id).getOwner().getID().equals(currentUser.getID())) {
                     counter++;
 
                     System.out.print(counter + "- " + id);
@@ -60,10 +61,14 @@ public class BuyingMenu {
                     System.out.print("CHOOSE AN OPTION: ");
                     String option = sc.nextLine();
                     if(option.equals("1")) {
-                        if (buy(command, currentUser, houseData, userData)) {
-                            isShowing = false;
-                            break;
+                        if (houseData.getHouses().get(command).getStatus().equals("forSale") || houseData.getHouses().get(command).getStatus().equals("forSaleForRent")) {
+                                if(buy(command, currentUser, houseData, userData)) {
+                                    isShowing = false;
+                                    break;
+                                }
                         } else {
+                            System.out.println();
+                            System.out.println("you can't purchase the house");
                             break;
                         }
                     } if (option.equals("2")) {
@@ -78,8 +83,7 @@ public class BuyingMenu {
     }
 
     private boolean buy(String id, User currentUser, HouseManager houseData, UserManager userData) {
-        User seller = userData.getIdToUser().get(houseData.getHouses().get(id).getOwner().getID());
-        if(TradeTools.trade(seller, currentUser, houseData.getHouses().get(id) ,houseData.getHouses().get(id).getPrice())) {
+        if(TradeTools.trade(houseData.getHouses().get(id).getOwner(), currentUser, houseData.getHouses().get(id) ,houseData.getHouses().get(id).getPrice(), userData)) {
             System.out.println();
             System.out.println("The house was successfully purchased");
             houseData.updateHousesFile();
@@ -87,8 +91,6 @@ public class BuyingMenu {
             return true;
         }
         else {
-            System.out.println();
-            System.out.println("Not enough budget");
             return false;
         }
     }

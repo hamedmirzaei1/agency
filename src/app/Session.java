@@ -18,6 +18,8 @@ public class Session {
     private SignUpMenu signUpMenu = new SignUpMenu();
 
     public void startSession() {
+        superUser = new User("superuser", "Agency", null, null, 0);
+
         userData.loadUsersFile();
         houseData.loadHousesFile(userData);
         contractData.loadContractsFile(houseData, userData);
@@ -55,5 +57,9 @@ public class Session {
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public User getSuperUser() {
+        return superUser;
     }
 }
