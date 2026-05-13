@@ -93,7 +93,7 @@ public class MainMenu {
                     houseSubmit.menu("forRent", session.getHouseData(), session.getCurrentUser());
                     break;
                 case "12":
-//                    fastSale.menu(session.getHouseData(), session.getCurrentUser(), session);
+                    fastSale.menu(session.getHouseData(), session.getCurrentUser(), session);
                     break;
                 case "14":
                     session.endSession();

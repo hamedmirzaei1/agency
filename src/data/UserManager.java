@@ -22,7 +22,10 @@ public class UserManager {
 
     public void updateUsersFile() {
         try(PrintWriter writer = new PrintWriter(new FileWriter(USERS_FILE_NAME))) {
-            for(String id : idToUser.keySet()) {
+            for(String id : idToUser.keySet() ) {
+                if(id.equals("superuser")) {
+                    continue;
+                }
                 writer.print(id);
                 writer.print(", ");
                 writer.print(idToUser.get(id).getUserName());

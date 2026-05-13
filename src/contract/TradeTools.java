@@ -38,16 +38,11 @@ public abstract class TradeTools {
             return false;
         }
     }
-    public static boolean fastTrade(User superUser, User seller, House house, int price) {
+    public static void fastTrade(User superUser, User seller, House house, int price) {
         price = (int)(price * 0.9);
-        if(house.getStatus().equals("forSale")) {
-            seller.changeBudget(price);
-            house.setOwner(superUser);
-            house.setStatus("forSaleForRent");
-            return true;
-        } else {
-            return false;
-        }
+        seller.changeBudget(price);
+        house.setOwner(superUser);
+        house.setStatus("forSaleForRent");
     }
 
     public static boolean cancelRent(RentContract contract, UserManager userData) {
@@ -57,6 +52,9 @@ public abstract class TradeTools {
             userData.getIdToUser().get(contract.getLandlord().getID()).changeBudget(penalty);
             contract.setIsValid("no");
             contract.getHouse().setStatus("none");
+            if (contract.getLandlord().getID().equals("superuser")) {
+                contract.getHouse().setStatus("forSaleForRent");
+            }
             return true;
         } else {
             return false;

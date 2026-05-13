@@ -11,16 +11,19 @@ import user.User;
 
 import java.util.Scanner;
 
+import static contract.TradeTools.fastTrade;
+
 public class FastSale {
     private boolean isShowing;
 
-    public void menu(HouseManager data, User currentUser, Session session) {
+    public void menu(HouseManager houseData, User currentUser, Session session) {
         Scanner sc = new Scanner(System.in);
 
         isShowing = true;
         while (isShowing) {
             try {
                 House inputHouse;
+                System.out.println();
                 System.out.println("Enter a house id of yours\nor");
                 System.out.println("for adding a new house, choose the house type:");
                 System.out.println("1. Apartment");
@@ -33,10 +36,16 @@ public class FastSale {
                 String command = sc.nextLine();
                 System.out.println();
 
-//                if (HouseSubmit.loadHouse(command, data, currentUser)) {
-//                    sale(data.getHouses().get(command.trim()), session, false);
-//                    break;
-//                }
+                if (HouseDetail.checkForHouse(command, houseData)) {
+                    House house = houseData.getHouses().get(command);
+                    if (house.getOwner().getID().equals(currentUser.getID()) && !house.getStatus().equals("rented")) {
+                        sale(house, session, false);
+                        break;
+                    } else {
+                        System.out.println("you can't sale this house");
+                        continue;
+                    }
+                }
 
                 switch (command) {
                     case "1":
@@ -81,21 +90,21 @@ public class FastSale {
                         System.out.print("Enter unit number of the house: ");
                         int unitNumber = Integer.parseInt(sc.nextLine());
 
-                        inputHouse = new Apartment(data, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, numberOfUnits, unitNumber);
+                        inputHouse = new Apartment(houseData, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, numberOfUnits, unitNumber);
                         sale(inputHouse, session, true);
                         break;
                     case "2":
                         System.out.print("Enter terrace area: ");
                         int terraceArea = Integer.parseInt(sc.nextLine());
 
-                        inputHouse = new PentHouse(data, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, terraceArea);
+                        inputHouse = new PentHouse(houseData, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, terraceArea);
                         sale(inputHouse, session, true);
                         break;
                     case "3":
                         System.out.print("Enter yard area: ");
                         int yardArea = Integer.parseInt(sc.nextLine());
 
-                        inputHouse = new VillaHouse(data, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, yardArea);
+                        inputHouse = new VillaHouse(houseData, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, yardArea);
                         sale(inputHouse, session, true);
                         break;
                 }
@@ -129,6 +138,7 @@ public class FastSale {
             if (command.equals("1")) {
                 TradeTools.fastTrade(session.getSuperUser(), session.getCurrentUser(), inputHouse, inputHouse.getPrice());
                 session.getHouseData().updateHousesFile();
+                session.getUserData().updateUsersFile();
                 System.out.println();
                 System.out.println("House was successfully sold");
                 isShowing = false;

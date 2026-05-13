@@ -19,6 +19,7 @@ public class Session {
 
     public void startSession() {
         superUser = new User("superuser", "Agency", null, null, 0);
+        userData.getIdToUser().put("superuser", superUser);
 
         userData.loadUsersFile();
         houseData.loadHousesFile(userData);

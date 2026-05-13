@@ -95,6 +95,10 @@ public class SignUpMenu {
         System.out.println("Enter your name");
         System.out.print(">> ");
         String name = sc.nextLine();
+        if (name.trim().equals("Agency")) {
+            System.out.println("you can't use this name");
+            return false;
+        }
 
         currentUser = new User(inputUserName, SignUpTools.hash(inputPassword), name);
         data.getIdToUser().put(currentUser.getID(), currentUser);
