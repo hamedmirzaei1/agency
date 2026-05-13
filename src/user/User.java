@@ -53,4 +53,8 @@ public class User extends IDKeeper {
         }
     }
 
+    public String getDescription() {
+        return "username: " + getUserName() + " - name: " + getName();
+    }
+
 }

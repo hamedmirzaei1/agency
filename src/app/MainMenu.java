@@ -24,6 +24,7 @@ public class MainMenu {
     private RentingMenu rentingMenu = new RentingMenu();
     private FastSale fastSale = new FastSale();
 
+    private UserDetail userDetail = new UserDetail();
 
     boolean isShowing = true;
 
@@ -94,6 +95,9 @@ public class MainMenu {
                     break;
                 case "12":
                     fastSale.menu(session.getHouseData(), session.getCurrentUser(), session);
+                    break;
+                case "13":
+                    userDetail.menu(session.getUserData());
                     break;
                 case "14":
                     session.endSession();
