@@ -47,7 +47,9 @@ public class MainMenu {
             System.out.println("11. Submit house for rent");
             System.out.println("12. Submit for *fast* sale");
             System.out.println();
-            System.out.println("13. exit");
+            System.out.println("13. User details using ID");
+            System.out.println();
+            System.out.println("14. exit");
             System.out.println("==================================");
             System.out.print("CHOOSE AN OPTION: ");
 
@@ -89,7 +91,7 @@ public class MainMenu {
                 case "11":
                     houseSubmit.menu("forRent", sc, session.getHouseData(), session.getCurrentUser());
                     break;
-                case "13":
+                case "14":
                     session.endSession();
                     break;
                 default:

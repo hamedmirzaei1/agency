@@ -93,4 +93,17 @@ public class RentContract extends IDKeeper {
     public void setIsValid(String isValid) {
         this.isValid = isValid;
     }
+
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
+    public void setLandlord(User landlord) {
+        this.landlord = landlord;
+    }
+
+    public void setSecondOne(User secondOne) {
+        this.secondOne = secondOne;
+    }
 }

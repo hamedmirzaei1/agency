@@ -1,5 +1,6 @@
 package data;
 
+import user.SuperUser;
 import user.User;
 
 import java.io.*;
@@ -39,6 +40,7 @@ public class UserManager {
 
     public void updateUsersFile() {
         try(PrintWriter writer = new PrintWriter(new FileWriter(USERS_FILE_NAME))) {
+            writer.println(idToUser.get("superuser").getBudget());
             for(String id : idToUser.keySet()) {
                 writer.print(id);
                 writer.print(", ");
@@ -69,6 +71,9 @@ public class UserManager {
             String hashedPassword = "";
             int budget = 0;
 
+            if((line = reader.readLine()) != null) {
+                idToUser.put("superuser", new SuperUser(Integer.parseInt(line)));
+            }
             while((line = reader.readLine()) != null) {
                 String[] parts = line.split(", ");
 
@@ -81,6 +86,7 @@ public class UserManager {
 
                     idToUser.put(id, new User(id, name, userName, hashedPassword, budget));
                     userNameToID.put(userName, id);
+
                 }
 
             }

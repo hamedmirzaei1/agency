@@ -8,6 +8,7 @@ import user.User;
 
 public class Session {
     private User currentUser;
+    private User superUser;
 
     private HouseManager houseData = new HouseManager();
     private UserManager userData = new UserManager();

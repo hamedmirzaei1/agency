@@ -39,12 +39,13 @@ public class CancelContract {
                         String option = sc.nextLine();
 
                         if(option.equals("1")) {
-                            if (TradeTools.cancelRent(session.getContractData().getContracts().get(command))) {
+                            if (TradeTools.cancelRent(session.getContractData().getContracts().get(command), session.getUserData())) {
                                 System.out.println("contract canceled successfully");
                                 Session.updateFiles(session);
                                 isShowing = false;
                                 break;
                             } else {
+                                System.out.println();
                                 System.out.println("not enough budget for canceling penalty");
                                 break;
                             }

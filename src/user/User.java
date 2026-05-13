@@ -9,13 +9,15 @@ public class User extends IDKeeper {
     private String userName;
     private String hashedPassword;
 
-    private int budget = 100_000;
+    protected int budget;
 
     public User(String userName, String hashedPassword, String name) {
         this.id = super.idGenerator();
         this.name = name;
         this.userName = userName;
         this.hashedPassword = hashedPassword;
+
+        this.budget = 100_000;
     }
 
     public User(String id, String name, String userName, String hashedPassword, int budget) {
@@ -46,9 +48,9 @@ public class User extends IDKeeper {
     }
 
     public void changeBudget(int change) {
-        if(budget + change > 0) {
-            budget = budget + change;
-        } // todo
+        if(this.budget + change > 0) {
+            this.budget = budget + change;
+        }
     }
 
 }

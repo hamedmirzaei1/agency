@@ -53,6 +53,8 @@ public class ContractManager {
                     int monthlyRent = Integer.parseInt(parts[6]);
 
                     contracts.put(id, new RentContract(id, house, landlord, secondOne, deadLine, isValid, monthlyRent));
+//                    contracts.get(id).setHouse(house);
+//                    contracts.get(id).s
                 }
             }
         } catch (IOException | NumberFormatException e) {

@@ -116,4 +116,6 @@ public abstract class House extends IDKeeper {
     public int getNumberOfFloors() {
         return numberOfFloors;
     }
+
+
 }

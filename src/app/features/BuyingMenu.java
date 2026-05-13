@@ -78,7 +78,8 @@ public class BuyingMenu {
     }
 
     private boolean buy(String id, User currentUser, HouseManager houseData, UserManager userData) {
-        if(TradeTools.trade(houseData.getHouses().get(id).getOwner(), currentUser, houseData.getHouses().get(id) ,houseData.getHouses().get(id).getPrice())) {
+        User seller = userData.getIdToUser().get(houseData.getHouses().get(id).getOwner().getID());
+        if(TradeTools.trade(seller, currentUser, houseData.getHouses().get(id) ,houseData.getHouses().get(id).getPrice())) {
             System.out.println();
             System.out.println("The house was successfully purchased");
             houseData.updateHousesFile();
