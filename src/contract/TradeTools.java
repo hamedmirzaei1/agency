@@ -45,10 +45,20 @@ public abstract class TradeTools {
         house.setStatus("forSaleForRent");
     }
 
+    public static boolean rentTransaction(User landlord, User secondOne, int price) {
+        if(price < secondOne.getBudget()) {
+            secondOne.changeBudget(-price);
+            landlord.changeBudget(+price);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static boolean cancelRent(RentContract contract, UserManager userData) {
         int penalty = getCancelPenalty(contract.getHouse());
         if (penalty < contract.getSecondOne().getBudget()) {
-            contract.getSecondOne().changeBudget(-penalty);
+            userData.getIdToUser().get(contract.getSecondOne().getID()).changeBudget(-penalty);
             userData.getIdToUser().get(contract.getLandlord().getID()).changeBudget(penalty);
             contract.setIsValid("no");
             contract.getHouse().setStatus("none");

@@ -1,6 +1,7 @@
 package app.features;
 
 import contract.TradeTools;
+import data.ContractManager;
 import data.HouseManager;
 import data.UserManager;
 import user.User;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 public class BuyingMenu {
     private boolean isShowing;
 
-    public void menu(HouseManager houseData, UserManager userData, User currentUser) {
+    public void menu(HouseManager houseData, UserManager userData, ContractManager contractData, User currentUser) {
         Scanner sc = new Scanner(System.in);
         isShowing = true;
         while(isShowing) {
@@ -50,7 +51,7 @@ public class BuyingMenu {
             }
             if(HouseDetail.checkForHouse(command, houseData)) {
                 System.out.println();
-                System.out.println(HouseDetail.detail(command, houseData));
+                System.out.println(HouseDetail.detail(command, houseData, contractData));
                 System.out.println();
                 while (true) {
                     System.out.println("$" + houseData.getHouses().get(command).getPrice());

@@ -70,13 +70,13 @@ public class MainMenu {
                     rentedHouseList.menu(session.getCurrentUser(), session.getHouseData(), session.getContractData());
                     break;
                 case "4":
-                    buyingMenu.menu(session.getHouseData(), session.getUserData(), session.getCurrentUser());
+                    buyingMenu.menu(session.getHouseData(), session.getUserData(), session.getContractData(), session.getCurrentUser());
                     break;
                 case "5":
-                    rentingMenu.menu(session.getHouseData(), session.getContractData(), session.getCurrentUser());
+                    rentingMenu.menu(session.getHouseData(), session.getContractData(), session.getCurrentUser(), session.getUserData());
                     break;
                 case "6":
-                    houseDetail.menu(session.getHouseData());
+                    houseDetail.menu(session.getHouseData(), session.getContractData());
                     break;
                 case "7":
                     contractList.menu(session.getContractData(), session.getCurrentUser());

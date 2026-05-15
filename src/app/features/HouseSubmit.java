@@ -91,6 +91,10 @@ public class HouseSubmit {
                         System.out.print("Enter terrace area: ");
                         int terraceArea = Integer.parseInt(sc.nextLine());
 
+                        if(floor != numberOfFloors) {
+                            System.out.println("not valid\nthe penthouse must be at the highest floor");
+                            break;
+                        }
                         inputHouse = new PentHouse(houseData, currentUser, status, area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, terraceArea);
                         confirmSubmit(sc, inputHouse, houseData, true, status, status);
                         break;

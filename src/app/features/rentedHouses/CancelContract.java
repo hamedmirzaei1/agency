@@ -46,7 +46,7 @@ public class CancelContract {
                                 break;
                             } else {
                                 System.out.println();
-                                System.out.println("not enough budget for canceling penalty");
+                                System.out.println("not enough budget for paying the penalty");
                                 break;
                             }
                         }

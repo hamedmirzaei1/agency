@@ -26,6 +26,9 @@ public class ContractDetail {
             if(checkForContract(id, contractData)) {
                 System.out.println();
                 System.out.println(contractData.getContracts().get(id).getDescription());
+                System.out.println();
+                System.out.println("house details:");
+                System.out.println(contractData.getContracts().get(id).getHouse().getDescription());
                 break;
             } else {
                 System.out.println("id is not valid");

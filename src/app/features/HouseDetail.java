@@ -1,5 +1,6 @@
 package app.features;
 
+import data.ContractManager;
 import data.HouseManager;
 
 import java.util.Scanner;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 public class HouseDetail {
     private boolean isShowing;
 
-    public void menu(HouseManager houseData) {
+    public void menu(HouseManager houseData, ContractManager contractData) {
         Scanner sc = new Scanner(System.in);
 
         isShowing = true;
@@ -26,7 +27,7 @@ public class HouseDetail {
             System.out.println();
             if(checkForHouse(id, houseData)) {
                 System.out.println();
-                System.out.println(detail(id, houseData));
+                System.out.println(detail(id, houseData, contractData));
                 break;
             } else {
                 System.out.println("id is not valid");
@@ -36,11 +37,20 @@ public class HouseDetail {
         }
     }
 
-    public static String detail(String id, HouseManager houseData) {
+    public static String detail(String id, HouseManager houseData, ContractManager contractData) {
         id = id.trim();
         String description = houseData.getHouses().get(id).getDescription();
         description += "\n\n" + "owner: " + houseData.getHouses().get(id).getOwnerName();
         description += "\n" + "status: " + houseData.getHouses().get(id).getStatus();
+        if(houseData.getHouses().get(id).getStatus().equals("rented")) {
+            String renterName = "";
+            for (String contractID : contractData.getContracts().keySet()) {
+                if(contractData.getContracts().get(contractID).getHouse().getId().equals(id) && contractData.getContracts().get(contractID).getValid()) {
+                    renterName = contractData.getContracts().get(contractID).getSecondOne().getName();
+                }
+            }
+            description += "\nrented by: " + renterName;
+        }
         return description;
     }
 
@@ -58,6 +68,4 @@ public class HouseDetail {
         return houseData.getHouses().get(id).getDescription();
     }
 
-    public void ME() {
-    }
 }

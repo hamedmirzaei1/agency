@@ -1,8 +1,10 @@
 package app.features;
 
 import contract.RentContract;
+import contract.TradeTools;
 import data.ContractManager;
 import data.HouseManager;
+import data.UserManager;
 import house.PentHouse;
 import user.User;
 
@@ -11,7 +13,7 @@ import java.util.Scanner;
 public class RentingMenu {
     private boolean isShowing;
 
-    public void menu(HouseManager houseData, ContractManager contractData, User currentUser) {
+    public void menu(HouseManager houseData, ContractManager contractData, User currentUser, UserManager userData) {
         Scanner sc = new Scanner(System.in);
 
         isShowing = true;
@@ -52,7 +54,7 @@ public class RentingMenu {
             if(HouseDetail.checkForHouse(command, houseData)) {
                 if((houseData.getHouses().get(command).getStatus().equals("forRent") || houseData.getHouses().get(command).getStatus().equals("forSaleForRent"))
                         && !houseData.getHouses().get(command).getOwner().getID().equals(currentUser.getID())) {
-                    if(rent(command, houseData, contractData, currentUser)) {
+                    if(rent(command, houseData, contractData, userData, currentUser)) {
                         System.out.println();
                         System.out.println("The house was successfully rented");
                         isShowing = false;
@@ -67,12 +69,13 @@ public class RentingMenu {
         }
     }
 
-    private boolean rent(String id, HouseManager houseData, ContractManager contractData, User currentUser) {
+    private boolean rent(String id, HouseManager houseData, ContractManager contractData, UserManager userData, User currentUser) {
         Scanner sc = new Scanner(System.in);
-        System.out.println(HouseDetail.detail(id, houseData));
+        System.out.println(HouseDetail.detail(id, houseData, contractData));
         System.out.println();
 
         System.out.println("$" + houseData.getHouses().get(id).getMonthlyRentPrice() + " per month");
+        System.out.println("you will pay for the first month");
         System.out.println();
 
         while(true) {
@@ -86,11 +89,17 @@ public class RentingMenu {
                 return false;
             }
             if(command.equals("1")) {
-                RentContract rentContract = new RentContract(houseData.getHouses().get(id).getOwner(), currentUser, houseData.getHouses().get(id), houseData.getHouses().get(id).getMonthlyRentPrice());
-                contractData.getContracts().put(rentContract.getId(), rentContract);
-                contractData.updateContractsFile();
-                houseData.updateHousesFile();
-                return true;
+                if(TradeTools.rentTransaction(userData.getIdToUser().get(houseData.getHouses().get(id).getOwner().getID()), currentUser, houseData.getHouses().get(id).getMonthlyRentPrice())) {
+                    RentContract rentContract = new RentContract(houseData.getHouses().get(id).getOwner(), currentUser, houseData.getHouses().get(id), houseData.getHouses().get(id).getMonthlyRentPrice());
+                    contractData.getContracts().put(rentContract.getId(), rentContract);
+                    contractData.updateContractsFile();
+                    houseData.updateHousesFile();
+                    userData.updateUsersFile();
+                    return true;
+                } else {
+                    System.out.println("not enough budget for first month payment");
+                    return false;
+                }
             }
         }
     }
