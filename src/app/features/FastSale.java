@@ -97,6 +97,11 @@ public class FastSale {
                         System.out.print("Enter terrace area: ");
                         int terraceArea = Integer.parseInt(sc.nextLine());
 
+                        if(floor != numberOfFloors) {
+                            System.out.println("not valid\nthe penthouse must be at the highest floor");
+                            break;
+                        }
+
                         inputHouse = new PentHouse(houseData, currentUser, "forSaleForRent", area, floor, numberOfFloors, roomNumbers, bathroomNumbers, region, terraceArea);
                         sale(inputHouse, session, true);
                         break;

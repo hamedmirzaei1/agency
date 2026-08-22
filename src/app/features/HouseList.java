@@ -30,7 +30,7 @@ public class HouseList {
             System.out.println();
             System.out.println("0. Back");
             System.out.println("or ");
-            System.out.println("Enter a house id for summarized details[for complete details, use the detail option from main menu]");
+            System.out.println("Enter a house id for summarized details [for complete details, use the detail option from main menu]");
 
             System.out.println("==================================");
             System.out.print("CHOOSE AN OPTION: ");
